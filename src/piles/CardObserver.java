@@ -1,8 +1,8 @@
 package piles;
 
-import abstractCard.Card;
+import card.abstractCard.AbstractCard;
 
 public interface CardObserver {
-    void cardAdded(Card cards);
-    void cardRemoved(Card cards);
+    void cardAdded(AbstractCard cards);
+    void cardRemoved(AbstractCard cards);
 }

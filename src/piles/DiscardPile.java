@@ -1,13 +1,13 @@
 package piles;
 
-import abstractCard.Card;
-import card.NumberedCard;
+import card.abstractCard.AbstractCard;
+import card.unoCards.NumberedAbstractCard;
 
 import java.util.Stack;
 
 public class DiscardPile {
   private static DiscardPile discardPileInstance;
-  private Stack<Card> cardStack;
+  private Stack<AbstractCard> cardStack;
   private DiscardPile(){
     initializeDiscardPile();
   }
@@ -19,24 +19,24 @@ public class DiscardPile {
     return discardPileInstance;
   }
 
-  public Card getTopCard(){
+  public AbstractCard getTopCard(){
     return cardStack.peek();
   }
 
   public void initializeDiscardPile(){
     cardStack = new Stack<>();
-    Card c = DrawPile.getInstance().drawCard();
+    AbstractCard c = DrawPile.getInstance().drawCard();
     cardStack.push(c);
-    if(!(c instanceof NumberedCard)){ // first card in discard pile has to be a number
+    if(!(c instanceof NumberedAbstractCard)){ // first card in discard pile has to be a number
       initializeDiscardPile();
     }
   }
 
-  public void addCard(Card card){
+  public void addCard(AbstractCard card){
     cardStack.push(card);
   }
 
-  public Stack<Card> getCardStack() {
+  public Stack<AbstractCard> getCardStack() {
     return cardStack;
   }
 }

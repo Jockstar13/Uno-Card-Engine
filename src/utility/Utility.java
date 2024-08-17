@@ -1,6 +1,6 @@
 package utility;
 
-import abstractCard.Color;
+import card.abstractCard.Color;
 public class Utility {
   public static String getColor(Color c){
     return switch (c) {

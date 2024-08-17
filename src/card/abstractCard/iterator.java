@@ -1,4 +1,4 @@
-package abstractCard;
+package card.abstractCard;
 
 public interface iterator<T> {
     public T next();

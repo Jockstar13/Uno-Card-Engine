@@ -1,9 +1,9 @@
 package piles;
 
-import abstractCard.Card;
-import abstractCard.Color;
-import abstractCard.iterator;
-import card.CardFactory;
+import card.abstractCard.AbstractCard;
+import card.abstractCard.Color;
+import card.abstractCard.iterator;
+import card.unoCards.CardFactory;
 import exceptions.IllegalCardException;
 
 import java.util.Collections;
@@ -12,7 +12,7 @@ import java.util.Stack;
 
 public class DrawPile {
   private static DrawPile drawPileInstance;
-  private Stack<Card> cardStack;
+  private Stack<AbstractCard> cardStack;
   private DrawPile(){
     initializeDrawPile();
   }
@@ -24,7 +24,7 @@ public class DrawPile {
     return drawPileInstance;
   }
 
-  public Card drawCard(){
+  public AbstractCard drawCard(){
     if (cardStack.empty()){
       handleEmptyDrawPile();
     }
@@ -41,8 +41,8 @@ public class DrawPile {
   }
 
   private void handleEmptyDrawPile(){ // gets all cards from the discard pile except the first and adds them to the draw pile
-    Stack<Card> discardPile = DiscardPile.getInstance().getCardStack();
-    Card topCard = discardPile.pop();
+    Stack<AbstractCard> discardPile = DiscardPile.getInstance().getCardStack();
+    AbstractCard topCard = discardPile.pop();
     while (!discardPile.empty()){
       cardStack.push(discardPile.pop());
     }

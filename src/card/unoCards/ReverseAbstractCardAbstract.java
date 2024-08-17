@@ -1,7 +1,7 @@
-package card;
+package card.unoCards;
 
-import abstractCard.ActionCard;
-import abstractCard.Color;
+import card.abstractCard.AbstractActionAbstractCard;
+import card.abstractCard.Color;
 import queue.Player;
 import queue.PlayersQueue;
 
@@ -9,8 +9,8 @@ import java.util.Queue;
 
 import static queue.PlayersQueue.reverseQueue;
 
-public class ReverseCard extends ActionCard {
-  public ReverseCard(Color color) {
+public class ReverseAbstractCardAbstract extends AbstractActionAbstractCard {
+  public ReverseAbstractCardAbstract(Color color) {
     super(color);
   }
   @Override

@@ -1,9 +1,9 @@
-package card;
+package card.unoCards;
 
-import abstractCard.WildCard;
+import card.abstractCard.AbstractWildCard;
 import queue.PlayersQueue;
 
-public class WildDrawFourCard extends WildCard {
+public class DrawFourAbstractWildCard extends AbstractWildCard {
   @Override
   public String getCardName() {
     return "Draw Four";

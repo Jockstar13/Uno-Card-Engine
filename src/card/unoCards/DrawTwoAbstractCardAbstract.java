@@ -1,12 +1,12 @@
-package card;
+package card.unoCards;
 
-import abstractCard.ActionCard;
-import abstractCard.Color;
+import card.abstractCard.AbstractActionAbstractCard;
+import card.abstractCard.Color;
 import queue.PlayersQueue;
 
 
-public class DrawTwoCard extends ActionCard {
-  public DrawTwoCard(Color color) {
+public class DrawTwoAbstractCardAbstract extends AbstractActionAbstractCard {
+  public DrawTwoAbstractCardAbstract(Color color) {
     super(color);
   }
   

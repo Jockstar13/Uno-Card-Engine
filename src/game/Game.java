@@ -12,7 +12,7 @@ public abstract class Game {
   
   public abstract void play();
   protected abstract boolean isGameOver();
-  protected abstract String playMore();
+  protected abstract String promptPlayAgain();
   protected abstract void displayWinner();
   
 }

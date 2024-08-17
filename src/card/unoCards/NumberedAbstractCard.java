@@ -1,16 +1,16 @@
-package card;
+package card.unoCards;
 
-import abstractCard.ActionCard;
-import abstractCard.Card;
-import abstractCard.Color;
-import abstractCard.WildCard;
+import card.abstractCard.AbstractActionAbstractCard;
+import card.abstractCard.AbstractCard;
+import card.abstractCard.Color;
+import card.abstractCard.AbstractWildCard;
 import exceptions.IllegalCardException;
 
-public class NumberedCard implements Card {
+public class NumberedAbstractCard implements AbstractCard {
   private final int number;
   private final Color color;
   
-  public NumberedCard(int number, Color color) {
+  public NumberedAbstractCard(int number, Color color) {
     this.number = number;
     this.color = color;
   }
@@ -28,14 +28,14 @@ public class NumberedCard implements Card {
   }
   
   @Override
-  public boolean canBePlayed(Card topCard) {
-    if(topCard instanceof ActionCard card2){
+  public boolean canBePlayed(AbstractCard topCard) {
+    if(topCard instanceof AbstractActionAbstractCard card2){
       return getColor() == card2.getColor();
     }
-    if(topCard instanceof WildCard card2){
+    if(topCard instanceof AbstractWildCard card2){
       return getColor() == card2.getColor();
     }
-    if(topCard instanceof NumberedCard card2){
+    if(topCard instanceof NumberedAbstractCard card2){
       return (getNumber() == card2.getNumber() || getColor() == card2.getColor());
     }
     throw new IllegalCardException("Invalid card type: " + topCard);

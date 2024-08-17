@@ -18,7 +18,7 @@ public class DefaultGame extends Game {
     while (!isGameOver()) {
       gameRound = new DefaultRound(playersQueue, options);
       gameRound.playRound();
-      if(isGameOver() || playMore().equals("n")){
+      if(isGameOver() || promptPlayAgain().equals("n")){
         break;
       }
     }
@@ -38,7 +38,7 @@ public class DefaultGame extends Game {
   }
   
   @Override
-  protected String playMore(){
+  protected String promptPlayAgain(){
     String playMore = "";
     boolean validInput = false;
     while (!validInput){

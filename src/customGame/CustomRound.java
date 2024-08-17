@@ -1,9 +1,9 @@
 package customGame;
 
-import abstractCard.ActionCard;
-import abstractCard.Card;
-import abstractCard.WildCard;
-import card.NumberedCard;
+import card.abstractCard.AbstractActionAbstractCard;
+import card.abstractCard.AbstractCard;
+import card.abstractCard.AbstractWildCard;
+import card.unoCards.NumberedAbstractCard;
 
 import game.GameRound;
 import game.Options;
@@ -22,7 +22,7 @@ public class CustomRound extends GameRound {
   }
   
   @Override
-  protected void initializeRound(){
+  protected void setupRound(){
     int numOfPlayers = playerQueue.size();
     int numOfCardsPerPlayer = options.getNumOfCardsPerPlayer();
     if (numOfPlayers * numOfCardsPerPlayer > drawPile.getDrawPileSize()){
@@ -37,21 +37,21 @@ public class CustomRound extends GameRound {
   
   @Override
   protected void playCard(Player player, int cardNumber){
-    Card card = player.getCardList().get(cardNumber);
+    AbstractCard card = player.getCardList().get(cardNumber);
 
     player.playCard(cardNumber);
-    if (card instanceof NumberedCard) {
+    if (card instanceof NumberedAbstractCard) {
       PlayersQueue.getInstance().nextPlayer();
-    } else if (card instanceof ActionCard actionCard){
-      actionCard.performAction();
-    } else if (card instanceof WildCard wildCard) {
+    } else if (card instanceof AbstractActionAbstractCard abstractActionCard){
+      abstractActionCard.performAction();
+    } else if (card instanceof AbstractWildCard wildCard) {
       wildCard.performAction();
     }
   }
   
   @Override
-  protected int chooseCard(Player player){
-    return def.chooseCard(player);
+  protected int selectCard(Player player){
+    return def.selectCard(player);
   }
 
   @Override

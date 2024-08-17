@@ -1,9 +1,9 @@
 package defaultGame;
 
-import abstractCard.ActionCard;
-import abstractCard.Card;
-import abstractCard.WildCard;
-import card.NumberedCard;
+import card.abstractCard.AbstractActionAbstractCard;
+import card.abstractCard.AbstractCard;
+import card.abstractCard.AbstractWildCard;
+import card.unoCards.NumberedAbstractCard;
 import exceptions.IllegalMoveException;
 import exceptions.InvalidInputException;
 import game.GameRound;
@@ -26,7 +26,7 @@ public class DefaultRound extends GameRound {
   }
 
   @Override
-  public void initializeRound(){
+  public void setupRound(){
     int numOfPlayers = playerQueue.size();
     int numOfCardsPerPlayer = options.getNumOfCardsPerPlayer();
     if (numOfPlayers * numOfCardsPerPlayer > drawPile.getDrawPileSize() - 10){
@@ -41,20 +41,20 @@ public class DefaultRound extends GameRound {
   
   @Override
   public void playCard(Player player, int cardNumber){
-    Card card = player.getCardList().get(cardNumber);
+    AbstractCard card = player.getCardList().get(cardNumber);
     deckNotifier.cardRemoved(card);
     player.playCard(cardNumber);
-    if (card instanceof NumberedCard) {
+    if (card instanceof NumberedAbstractCard) {
       PlayersQueue.getInstance().nextPlayer();
-    } else if (card instanceof ActionCard actionCard){
-      actionCard.performAction();
-    } else if (card instanceof WildCard wildCard) {
+    } else if (card instanceof AbstractActionAbstractCard abstractActionCard){
+      abstractActionCard.performAction();
+    } else if (card instanceof AbstractWildCard wildCard) {
       wildCard.performAction();
     }
   }
   
   @Override
-  public int chooseCard(Player player){
+  public int selectCard(Player player){
     int cardNumber = 0;
     boolean validMove = false;
     while(!validMove) {
@@ -110,7 +110,7 @@ public class DefaultRound extends GameRound {
   }
   
   public void validatePlayableCard(Player player, int cardNumber) throws IllegalMoveException {
-    Card chosenCard = player.getCardList().get(cardNumber);
+    AbstractCard chosenCard = player.getCardList().get(cardNumber);
     if (!canBePlayed(chosenCard)) {
       throw new IllegalMoveException("You can't play this card.");
     }
@@ -131,7 +131,7 @@ public class DefaultRound extends GameRound {
   @Override
   public void endRound(){
     for(Player player : playerQueue){
-      for(Card card:player.getCardList())
+      for(AbstractCard card:player.getCardList())
         deckNotifier.cardAdded(card);
       player.clearCardList();
     }

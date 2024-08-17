@@ -1,4 +1,4 @@
-package abstractCard;
+package card.abstractCard;
 
 import exceptions.InvalidInputException;
 
@@ -7,12 +7,12 @@ import java.util.Scanner;
 
 import static utility.Display.printColorCards;
 
-public abstract class WildCard implements Card{
+public abstract class AbstractWildCard implements AbstractCard {
   private Color color;
   public abstract String getCardName();
 
   @Override
-  public boolean canBePlayed(Card topCard) {
+  public boolean canBePlayed(AbstractCard topCard) {
     return true;
   }
   

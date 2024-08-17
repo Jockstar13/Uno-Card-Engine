@@ -1,6 +1,6 @@
 package queue;
 
-import abstractCard.Card;
+import card.abstractCard.AbstractCard;
 import piles.DiscardPile;
 import piles.DrawPile;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Player {
   private final String name;
-  private List<Card> cardList;
+  private List<AbstractCard> cardList;
   private int score;
   
   public Player(String name){
@@ -18,8 +18,8 @@ public class Player {
     this.score = 0;
   }
   
-  public Card drawCard(){
-    Card card = DrawPile.getInstance().drawCard();
+  public AbstractCard drawCard(){
+    AbstractCard card = DrawPile.getInstance().drawCard();
     cardList.add(card);
     return card;
   }
@@ -31,7 +31,7 @@ public class Player {
   }
   
   public void playCard(int num){
-    Card playedCard = cardList.remove(num);
+    AbstractCard playedCard = cardList.remove(num);
     DiscardPile.getInstance().addCard(playedCard);
   }
   
@@ -47,7 +47,7 @@ public class Player {
     return name;
   }
   
-  public List<Card> getCardList() {
+  public List<AbstractCard> getCardList() {
     return cardList;
   }
   

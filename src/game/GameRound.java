@@ -1,6 +1,6 @@
 package game;
 
-import abstractCard.Card;
+import card.abstractCard.AbstractCard;
 import piles.DiscardPile;
 import piles.DrawPile;
 import queue.Player;
@@ -26,15 +26,15 @@ public abstract class GameRound {
   }
   
   public void playRound(){
-    initializeRound();
+    setupRound();
     while (!isRoundOver()) {
       Player currentPlayer = playerQueue.peek();
       printPlayerCards(currentPlayer);
-      Card topDiscardedCard = discardPile.getTopCard();
+      AbstractCard topDiscardedCard = discardPile.getTopCard();
       printTopDiscardedCard(topDiscardedCard);
       if(!hasPlayableCard(currentPlayer)){
         System.out.println("You don't have a card to play, " + currentPlayer.getName() + "! Drawing a card.");
-        Card drawnCard = currentPlayer.drawCard();
+        AbstractCard drawnCard = currentPlayer.drawCard();
         System.out.println("You drew a " + drawnCard.toString());
         if (canBePlayed(drawnCard)){ // play the drawn card if valid
           System.out.println("You can play this card.");
@@ -43,7 +43,7 @@ public abstract class GameRound {
           PlayersQueue.getInstance().nextPlayer();
         }
       } else {
-        int cardNumber = chooseCard(currentPlayer);
+        int cardNumber = selectCard(currentPlayer);
         playCard(currentPlayer, cardNumber);
       }
       System.out.println("-------------------------------------------------");
@@ -65,8 +65,8 @@ public abstract class GameRound {
   }
   
   private Boolean hasPlayableCard(Player player){
-    List<Card> cardList = player.getCardList();
-    for(Card card : cardList){
+    List<AbstractCard> cardList = player.getCardList();
+    for(AbstractCard card : cardList){
       if (canBePlayed(card)){
         return true;
       }
@@ -74,22 +74,22 @@ public abstract class GameRound {
     return false;
   }
 
-  protected boolean canBePlayed(Card playerCard){
-    Card topCard = discardPile.getTopCard();
+  protected boolean canBePlayed(AbstractCard playerCard){
+    AbstractCard topCard = discardPile.getTopCard();
 
     return playerCard.canBePlayed(topCard);
   }
   
   private void calculateScore(){
     for (Player player : playerQueue){
-      for (Card card : player.getCardList()){
+      for (AbstractCard card : player.getCardList()){
         roundWinner.incrementScore(card.getCardScore());
       }
     }
   }
-  protected abstract void initializeRound();
+  protected abstract void setupRound();
   protected abstract void playCard(Player player, int cardNumber);
-  protected abstract int chooseCard(Player player);
+  protected abstract int selectCard(Player player);
   protected abstract void displayRoundWinner();
   protected abstract void displayScores();
   protected abstract void endRound();

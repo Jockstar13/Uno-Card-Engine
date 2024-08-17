@@ -1,6 +1,5 @@
 package customGame;
 
-import defaultGame.DefaultRound;
 import exceptions.InvalidInputException;
 import game.Game;
 import game.Options;
@@ -23,7 +22,7 @@ public class CustomGame extends Game {
     while (!isGameOver()) {
       gameRound = new CustomRound(playersQueue, options);
       gameRound.playRound();
-      if(isGameOver() || playMore().equals("n")){
+      if(isGameOver() || promptPlayAgain().equals("n")){
         break;
       }
     }
@@ -43,7 +42,7 @@ public class CustomGame extends Game {
   }
   
   @Override
-  protected String playMore(){
+  protected String promptPlayAgain(){
     String playMore = "";
     boolean validInput = false;
     while (!validInput){

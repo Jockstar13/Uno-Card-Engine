@@ -1,4 +1,4 @@
-package abstractCard;
+package card.abstractCard;
 
 public enum Color {
   BLUE, GREEN, RED, YELLOW;

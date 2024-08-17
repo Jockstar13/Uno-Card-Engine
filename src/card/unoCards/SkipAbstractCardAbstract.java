@@ -1,11 +1,11 @@
-package card;
+package card.unoCards;
 
-import abstractCard.ActionCard;
-import abstractCard.Color;
+import card.abstractCard.AbstractActionAbstractCard;
+import card.abstractCard.Color;
 import queue.PlayersQueue;
 
-public class SkipCard extends ActionCard {
-  public SkipCard(Color color) {
+public class SkipAbstractCardAbstract extends AbstractActionAbstractCard {
+  public SkipAbstractCardAbstract(Color color) {
     super(color);
   }
   @Override
