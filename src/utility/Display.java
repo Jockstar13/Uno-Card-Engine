@@ -1,8 +1,8 @@
 package utility;
 
 import card.abstractCard.*;
-import card.unoCards.NumberedAbstractCard;
-import queue.Player;
+import card.unoCards.NumberedCard;
+import queue.UnoPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +18,19 @@ public class Display {
     String discardPile = spaceParts(cardList) + namePart(cardList) + spaceParts(cardList);
     System.out.println(discardPile);
   }
-  public static void printPlayerCards(Player player){
-    System.out.println(player.getName()+"'s turn");
-    List<AbstractCard> cardList = player.getCardList();
+  public static void printPlayerCards(UnoPlayer unoPlayer){
+    System.out.println(unoPlayer.getName()+"'s turn");
+    List<AbstractCard> cardList = unoPlayer.getCardList();
     String playerCards = spaceParts(cardList) + namePart(cardList) + spaceParts(cardList) + drawNumbers(cardList);
     System.out.println(playerCards);
   }
   
-  public static void printColorCards(){ //when wild card is chosen
+  public static void printColorCards(){
+    //this is for wild card when it is chosen
     List<AbstractCard> cardList = new ArrayList<>();
     iterator<Color> iter=Color.getIterator();
     while(iter.hasNext()){
-      NumberedAbstractCard card = new NumberedAbstractCard(0,iter.next());
+      NumberedCard card = new NumberedCard(0,iter.next());
       cardList.add(card);
     }
     String colorCards = spaceParts(cardList) + spaceParts(cardList) + drawNumbers(cardList);
@@ -44,10 +45,10 @@ public class Display {
         if(card instanceof AbstractWildCard wildCard){
           color = wildCard.getColor() == null ? WHITE : getColor(wildCard.getColor());
         }
-        if(card instanceof AbstractActionAbstractCard abstractActionCard){
+        if(card instanceof AbstractActionCard abstractActionCard){
           color = getColor(abstractActionCard.getColor());
         }
-        if(card instanceof NumberedAbstractCard numberedCard){
+        if(card instanceof NumberedCard numberedCard){
           color = getColor(numberedCard.getColor());
         }
         String fill = color + space(cardWidth) + STOP + space(spaceBetweenCards);
@@ -66,10 +67,10 @@ public class Display {
       if(card instanceof AbstractWildCard wildCard){
         color = wildCard.getColor() == null ? WHITE : getColor(wildCard.getColor());
       }
-      if(card instanceof AbstractActionAbstractCard abstractActionCard){
+      if(card instanceof AbstractActionCard abstractActionCard){
         color = getColor(abstractActionCard.getColor());
       }
-      if(card instanceof NumberedAbstractCard numberedCard){
+      if(card instanceof NumberedCard numberedCard){
         name=Integer.toString(numberedCard.getNumber());
         color = getColor(numberedCard.getColor());
       }

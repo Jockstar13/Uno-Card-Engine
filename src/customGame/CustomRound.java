@@ -1,14 +1,14 @@
 package customGame;
 
-import card.abstractCard.AbstractActionAbstractCard;
+import card.abstractCard.AbstractActionCard;
 import card.abstractCard.AbstractCard;
 import card.abstractCard.AbstractWildCard;
-import card.unoCards.NumberedAbstractCard;
+import card.unoCards.NumberedCard;
 
 import game.GameRound;
 import game.Options;
-import queue.Player;
-import queue.PlayersQueue;
+import queue.UnoPlayer;
+import queue.UnoPlayersQueue;
 
 import defaultGame.DefaultRound;
 
@@ -16,33 +16,33 @@ import java.util.Queue;
 
 public class CustomRound extends GameRound {
   DefaultRound def;
-  public CustomRound(Queue<Player> queue, Options o) {
+  public CustomRound(Queue<UnoPlayer> queue, Options o) {
     super(queue, o);
     def=new DefaultRound(queue,o);
   }
   
   @Override
   protected void setupRound(){
-    int numOfPlayers = playerQueue.size();
+    int numOfPlayers = unoPlayerQueue.size();
     int numOfCardsPerPlayer = options.getNumOfCardsPerPlayer();
-    if (numOfPlayers * numOfCardsPerPlayer > drawPile.getDrawPileSize()){
+    if (numOfPlayers * numOfCardsPerPlayer > drawDeck.getDrawPileSize()){
       throw new IllegalArgumentException("Not enough cards.");
     }
     for(int i=0;i<numOfPlayers;i++){
-      Player player= playerQueue.remove();
-      player.drawCard(numOfCardsPerPlayer);
-      playerQueue.add(player);
+      UnoPlayer unoPlayer = unoPlayerQueue.remove();
+      unoPlayer.drawCard(numOfCardsPerPlayer);
+      unoPlayerQueue.add(unoPlayer);
     }
   }
   
   @Override
-  protected void playCard(Player player, int cardNumber){
-    AbstractCard card = player.getCardList().get(cardNumber);
+  protected void playCard(UnoPlayer unoPlayer, int cardNumber){
+    AbstractCard card = unoPlayer.getCardList().get(cardNumber);
 
-    player.playCard(cardNumber);
-    if (card instanceof NumberedAbstractCard) {
-      PlayersQueue.getInstance().nextPlayer();
-    } else if (card instanceof AbstractActionAbstractCard abstractActionCard){
+    unoPlayer.playCard(cardNumber);
+    if (card instanceof NumberedCard) {
+      UnoPlayersQueue.getInstance().nextPlayer();
+    } else if (card instanceof AbstractActionCard abstractActionCard){
       abstractActionCard.performAction();
     } else if (card instanceof AbstractWildCard wildCard) {
       wildCard.performAction();
@@ -50,8 +50,8 @@ public class CustomRound extends GameRound {
   }
   
   @Override
-  protected int selectCard(Player player){
-    return def.selectCard(player);
+  protected int selectCard(UnoPlayer unoPlayer){
+    return def.selectCard(unoPlayer);
   }
 
   @Override
@@ -61,17 +61,17 @@ public class CustomRound extends GameRound {
   
   @Override
   protected void displayScores(){
-    for (Player player : playerQueue) {
-      System.out.println(player.getName() + "'s score: " + player.getScore());
+    for (UnoPlayer unoPlayer : unoPlayerQueue) {
+      System.out.println(unoPlayer.getName() + "'s score: " + unoPlayer.getScore());
     }
   }
   
   @Override
   protected void endRound(){
-    for(Player player : playerQueue){
-      player.clearCardList();
+    for(UnoPlayer unoPlayer : unoPlayerQueue){
+      unoPlayer.clearCardList();
     }
-    drawPile.initializeDrawPile();
-    discardPile.initializeDiscardPile();
+    drawDeck.initializeDrawPile();
+    discardDeck.initializeDiscardPile();
   }
 }

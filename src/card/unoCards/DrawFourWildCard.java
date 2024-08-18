@@ -1,9 +1,9 @@
 package card.unoCards;
 
 import card.abstractCard.AbstractWildCard;
-import queue.PlayersQueue;
+import queue.UnoPlayersQueue;
 
-public class DrawFourAbstractWildCard extends AbstractWildCard {
+public class DrawFourWildCard extends AbstractWildCard {
   @Override
   public String getCardName() {
     return "Draw Four";
@@ -12,7 +12,7 @@ public class DrawFourAbstractWildCard extends AbstractWildCard {
   @Override
   public void performAction() {
     chooseColor();
-    PlayersQueue playerQueue = PlayersQueue.getInstance();
+    UnoPlayersQueue playerQueue = UnoPlayersQueue.getInstance();
     playerQueue.nextPlayer();
     playerQueue.getQueue().peek().drawCard(4);
     System.out.println(playerQueue.getQueue().peek().getName()+" has drawn four cards!");

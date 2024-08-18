@@ -7,16 +7,16 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class PlayersQueue {
-  private static PlayersQueue queueInstance;
-  private final Queue<Player> queue;
-  private PlayersQueue(){
+public class UnoPlayersQueue {
+  private static UnoPlayersQueue queueInstance;
+  private final Queue<UnoPlayer> queue;
+  private UnoPlayersQueue(){
     queue=new LinkedList<>();
     initializeQueue();
   }
-  public static PlayersQueue getInstance(){
+  public static UnoPlayersQueue getInstance(){
     if(queueInstance==null)
-      queueInstance = new PlayersQueue();
+      queueInstance = new UnoPlayersQueue();
     return queueInstance;
   }
   
@@ -34,7 +34,7 @@ public class PlayersQueue {
         throw new InvalidInputException("Maximum number of players is 10. Try again.");
       }
       for (String player : playersArray) {
-        Player p = new Player(player);
+        UnoPlayer p = new UnoPlayer(player);
         queue.add(p);
       }
     }catch(InvalidInputException e){
@@ -43,13 +43,13 @@ public class PlayersQueue {
     }
   }
   
-  public Queue<Player> getQueue(){
+  public Queue<UnoPlayer> getQueue(){
     return queue;
   }
   
   public void nextPlayer(){
-    Player currentPlayer = queue.remove();
-    queue.add(currentPlayer);
+    UnoPlayer currentUnoPlayer = queue.remove();
+    queue.add(currentUnoPlayer);
   }
 
   public static <T> void reverseQueue(Queue<T> queue){

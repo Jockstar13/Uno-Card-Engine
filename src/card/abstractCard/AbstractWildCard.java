@@ -12,7 +12,7 @@ public abstract class AbstractWildCard implements AbstractCard {
   public abstract String getCardName();
 
   @Override
-  public boolean canBePlayed(AbstractCard topCard) {
+  public boolean isPlayable(AbstractCard topCard) {
     return true;
   }
   

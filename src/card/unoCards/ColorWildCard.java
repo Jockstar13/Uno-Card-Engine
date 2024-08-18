@@ -1,9 +1,9 @@
 package card.unoCards;
 
 import card.abstractCard.AbstractWildCard;
-import queue.PlayersQueue;
+import queue.UnoPlayersQueue;
 
-public class ColorAbstractWildCard extends AbstractWildCard {
+public class ColorWildCard extends AbstractWildCard {
   @Override
   public String getCardName() {
     return "Wild";
@@ -12,6 +12,6 @@ public class ColorAbstractWildCard extends AbstractWildCard {
   @Override
   public void performAction() {
     chooseColor();
-    PlayersQueue.getInstance().nextPlayer();
+    UnoPlayersQueue.getInstance().nextPlayer();
   }
 }

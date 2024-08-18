@@ -4,8 +4,8 @@ import exceptions.InvalidInputException;
 import game.Game;
 import game.Options;
 import piles.DeckInfo;
-import queue.Player;
-import queue.PlayersQueue;
+import queue.UnoPlayer;
+import queue.UnoPlayersQueue;
 
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ public class CustomGame extends Game {
     deckOptions.setWildDrawFourCards(2);
     deckOptions.setWildCards(2);
     options = new Options.Builder().deckOptions(deckOptions).drawOnlyOneCard(false).sayUno(false).numOfCardsPerPlayer(5).scoreToWin(100).build(); // customized options
-    playersQueue = PlayersQueue.getInstance().getQueue();
+    playersQueue = UnoPlayersQueue.getInstance().getQueue();
   }
   
   public void play(){
@@ -32,10 +32,10 @@ public class CustomGame extends Game {
   @Override
   protected boolean isGameOver(){
     int maxScore = 0;
-    for (Player player : playersQueue){
-      if(player.getScore() >= maxScore){
-        maxScore = player.getScore();
-        gameWinner = player;
+    for (UnoPlayer unoPlayer : playersQueue){
+      if(unoPlayer.getScore() >= maxScore){
+        maxScore = unoPlayer.getScore();
+        gameWinner = unoPlayer;
       }
     }
     return gameWinner.getScore() >= options.getScoreToWin();

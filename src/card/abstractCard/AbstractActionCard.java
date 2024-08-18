@@ -1,12 +1,12 @@
 package card.abstractCard;
 
-import card.unoCards.NumberedAbstractCard;
+import card.unoCards.NumberedCard;
 import exceptions.IllegalCardException;
 
-public abstract class AbstractActionAbstractCard implements AbstractCard {
+public abstract class AbstractActionCard implements AbstractCard {
   private final Color color;
 
-  protected AbstractActionAbstractCard(Color color){
+  protected AbstractActionCard(Color color){
     this.color=color;
   }
   
@@ -15,11 +15,11 @@ public abstract class AbstractActionAbstractCard implements AbstractCard {
   }
   
   @Override
-  public boolean canBePlayed(AbstractCard topCard) {
-    if(topCard instanceof NumberedAbstractCard card2){
+  public boolean isPlayable(AbstractCard topCard) {
+    if(topCard instanceof NumberedCard card2){
       return (getColor() == card2.getColor());
     }
-    if(topCard instanceof AbstractActionAbstractCard card2){
+    if(topCard instanceof AbstractActionCard card2){
       return (getColor() == card2.getColor() || getCardName().equals(card2.getCardName()));
     }
     if(topCard instanceof AbstractWildCard card2){

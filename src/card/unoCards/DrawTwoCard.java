@@ -1,12 +1,12 @@
 package card.unoCards;
 
-import card.abstractCard.AbstractActionAbstractCard;
+import card.abstractCard.AbstractActionCard;
 import card.abstractCard.Color;
-import queue.PlayersQueue;
+import queue.UnoPlayersQueue;
 
 
-public class DrawTwoAbstractCardAbstract extends AbstractActionAbstractCard {
-  public DrawTwoAbstractCardAbstract(Color color) {
+public class DrawTwoCard extends AbstractActionCard {
+  public DrawTwoCard(Color color) {
     super(color);
   }
   
@@ -17,7 +17,7 @@ public class DrawTwoAbstractCardAbstract extends AbstractActionAbstractCard {
   
   @Override
   public void performAction(){
-    PlayersQueue playerQueue = PlayersQueue.getInstance();
+    UnoPlayersQueue playerQueue = UnoPlayersQueue.getInstance();
     playerQueue.nextPlayer();
     playerQueue.getQueue().peek().drawCard(2);
     System.out.println(playerQueue.getQueue().peek().getName()+" has drawn two cards!");

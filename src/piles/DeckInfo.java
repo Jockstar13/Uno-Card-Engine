@@ -10,7 +10,8 @@ public class DeckInfo { // stores the count of each card type for each color
   private int wildDrawFourCards;
 
   public DeckInfo(){
-    setZeroCards(1); // 1 zero card for each color, 4 total
+    // setting zero card for each color
+    setZeroCards(1);
     setNumberedCards(2);
     setReverseCards(2);
     setDrawTwoCards(2);

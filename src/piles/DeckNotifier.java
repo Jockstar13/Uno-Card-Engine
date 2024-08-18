@@ -10,7 +10,8 @@ public class DeckNotifier implements CardObserver {
     }
     @Override
     public void cardAdded(AbstractCard card) {
-            String cardType = card.getCardName();  // Assuming Card class has a method to get the card type
+            String cardType = card.getCardName();
+        // in case the  Card class has a method to get the card type
             int currentCount = deck.getDeck().getOrDefault(cardType, 0);
             deck.getDeck().put(cardType, currentCount + 1);
             System.out.println(card+" added");

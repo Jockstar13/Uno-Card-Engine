@@ -1,7 +1,7 @@
 package piles;
 
 import card.abstractCard.AbstractCard;
-import card.unoCards.NumberedAbstractCard;
+import card.unoCards.NumberedCard;
 
 import java.util.Stack;
 
@@ -27,7 +27,7 @@ public class DiscardPile {
     cardStack = new Stack<>();
     AbstractCard c = DrawPile.getInstance().drawCard();
     cardStack.push(c);
-    if(!(c instanceof NumberedAbstractCard)){ // first card in discard pile has to be a number
+    if(!(c instanceof NumberedCard)){ // first card in discard pile has to be a number
       initializeDiscardPile();
     }
   }

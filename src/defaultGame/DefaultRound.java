@@ -1,17 +1,17 @@
 package defaultGame;
 
-import card.abstractCard.AbstractActionAbstractCard;
+import card.abstractCard.AbstractActionCard;
 import card.abstractCard.AbstractCard;
 import card.abstractCard.AbstractWildCard;
-import card.unoCards.NumberedAbstractCard;
+import card.unoCards.NumberedCard;
 import exceptions.IllegalMoveException;
 import exceptions.InvalidInputException;
 import game.GameRound;
 import game.Options;
 import piles.Deck;
 import piles.DeckNotifier;
-import queue.Player;
-import queue.PlayersQueue;
+import queue.UnoPlayer;
+import queue.UnoPlayersQueue;
 
 import java.util.InputMismatchException;
 import java.util.Queue;
@@ -20,33 +20,33 @@ import java.util.Scanner;
 public class DefaultRound extends GameRound {
   DeckNotifier deckNotifier;
 
-  public DefaultRound(Queue<Player> queue, Options o) {
+  public DefaultRound(Queue<UnoPlayer> queue, Options o) {
     super(queue, o);
     deckNotifier = new DeckNotifier(Deck.getInstance());
   }
 
   @Override
   public void setupRound(){
-    int numOfPlayers = playerQueue.size();
+    int numOfPlayers = unoPlayerQueue.size();
     int numOfCardsPerPlayer = options.getNumOfCardsPerPlayer();
-    if (numOfPlayers * numOfCardsPerPlayer > drawPile.getDrawPileSize() - 10){
+    if (numOfPlayers * numOfCardsPerPlayer > drawDeck.getDrawPileSize() - 10){
       throw new IllegalArgumentException("There has to be at least 10 cards in the draw pile to start.");
     }
     for(int i=0;i<numOfPlayers;i++){
-      Player player= playerQueue.remove();
-      player.drawCard(numOfCardsPerPlayer);
-      playerQueue.add(player);
+      UnoPlayer unoPlayer = unoPlayerQueue.remove();
+      unoPlayer.drawCard(numOfCardsPerPlayer);
+      unoPlayerQueue.add(unoPlayer);
     }
   }
   
   @Override
-  public void playCard(Player player, int cardNumber){
-    AbstractCard card = player.getCardList().get(cardNumber);
+  public void playCard(UnoPlayer unoPlayer, int cardNumber){
+    AbstractCard card = unoPlayer.getCardList().get(cardNumber);
     deckNotifier.cardRemoved(card);
-    player.playCard(cardNumber);
-    if (card instanceof NumberedAbstractCard) {
-      PlayersQueue.getInstance().nextPlayer();
-    } else if (card instanceof AbstractActionAbstractCard abstractActionCard){
+    unoPlayer.playCard(cardNumber);
+    if (card instanceof NumberedCard) {
+      UnoPlayersQueue.getInstance().nextPlayer();
+    } else if (card instanceof AbstractActionCard abstractActionCard){
       abstractActionCard.performAction();
     } else if (card instanceof AbstractWildCard wildCard) {
       wildCard.performAction();
@@ -54,15 +54,15 @@ public class DefaultRound extends GameRound {
   }
   
   @Override
-  public int selectCard(Player player){
+  public int selectCard(UnoPlayer unoPlayer){
     int cardNumber = 0;
     boolean validMove = false;
     while(!validMove) {
       try {
-        cardNumber = handleCardNumberInput(player);
-        validateCardNumber(player, cardNumber);
+        cardNumber = handleCardNumberInput(unoPlayer);
+        validateCardNumber(unoPlayer, cardNumber);
         cardNumber--;
-        validatePlayableCard(player, cardNumber);
+        validatePlayableCard(unoPlayer, cardNumber);
         validMove = true;
       } catch (InvalidInputException e) {
         System.out.println(e.getMessage() + " Choose a valid card number:");
@@ -75,11 +75,11 @@ public class DefaultRound extends GameRound {
     return cardNumber;
   }
   
-  public int handleCardNumberInput(Player player){
-    System.out.println("Choose a card, " + player.getName());
+  public int handleCardNumberInput(UnoPlayer unoPlayer){
+    System.out.println("Choose a card, " + unoPlayer.getName());
     if (options.hasToSayUno()) {
-      String sayUno = sayUno(player);
-      if (player.getCardList().size() == 2 && sayUno.equalsIgnoreCase("Uno")) {
+      String sayUno = sayUno(unoPlayer);
+      if (unoPlayer.getCardList().size() == 2 && sayUno.equalsIgnoreCase("Uno")) {
         System.out.println("Good job! You remembered to say Uno. Choose a card:");
         return chooseCardNumber();
       }
@@ -88,12 +88,12 @@ public class DefaultRound extends GameRound {
     return chooseCardNumber();
   }
   
-  public String sayUno(Player player){
+  public String sayUno(UnoPlayer unoPlayer){
     Scanner input = new Scanner(System.in);
     String uno = input.next();
-    if (player.getCardList().size() == 2 && !uno.equalsIgnoreCase("Uno")){
+    if (unoPlayer.getCardList().size() == 2 && !uno.equalsIgnoreCase("Uno")){
       System.out.println("You forgot to say Uno! You have to draw two cards.");
-      player.drawCard(2);
+      unoPlayer.drawCard(2);
     }
     return uno;
   }
@@ -103,14 +103,14 @@ public class DefaultRound extends GameRound {
     return scanner.nextInt();
   }
   
-  public void validateCardNumber(Player player, int cardNumber) throws InvalidInputException {
-    if (cardNumber <= 0 || cardNumber > player.getCardList().size()) {
+  public void validateCardNumber(UnoPlayer unoPlayer, int cardNumber) throws InvalidInputException {
+    if (cardNumber <= 0 || cardNumber > unoPlayer.getCardList().size()) {
       throw new InvalidInputException("You chose an invalid card number.");
     }
   }
   
-  public void validatePlayableCard(Player player, int cardNumber) throws IllegalMoveException {
-    AbstractCard chosenCard = player.getCardList().get(cardNumber);
+  public void validatePlayableCard(UnoPlayer unoPlayer, int cardNumber) throws IllegalMoveException {
+    AbstractCard chosenCard = unoPlayer.getCardList().get(cardNumber);
     if (!canBePlayed(chosenCard)) {
       throw new IllegalMoveException("You can't play this card.");
     }
@@ -123,20 +123,20 @@ public class DefaultRound extends GameRound {
   
   @Override
   public void displayScores(){
-    for (Player player : playerQueue) {
-      System.out.println(player.getName() + "'s score: " + player.getScore());
+    for (UnoPlayer unoPlayer : unoPlayerQueue) {
+      System.out.println(unoPlayer.getName() + "'s score: " + unoPlayer.getScore());
     }
   }
   
   @Override
   public void endRound(){
-    for(Player player : playerQueue){
-      for(AbstractCard card:player.getCardList())
+    for(UnoPlayer unoPlayer : unoPlayerQueue){
+      for(AbstractCard card: unoPlayer.getCardList())
         deckNotifier.cardAdded(card);
-      player.clearCardList();
+      unoPlayer.clearCardList();
     }
-    drawPile.initializeDrawPile();
-    discardPile.initializeDiscardPile();
+    drawDeck.initializeDrawPile();
+    discardDeck.initializeDiscardPile();
   }
 
 }

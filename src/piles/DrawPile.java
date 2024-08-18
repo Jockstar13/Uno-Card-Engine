@@ -40,7 +40,8 @@ public class DrawPile {
     Collections.shuffle(cardStack);
   }
 
-  private void handleEmptyDrawPile(){ // gets all cards from the discard pile except the first and adds them to the draw pile
+  private void handleEmptyDrawPile(){
+    // excluding the top card, Transfers all cards from the discard pile to the draw pile
     Stack<AbstractCard> discardPile = DiscardPile.getInstance().getCardStack();
     AbstractCard topCard = discardPile.pop();
     while (!discardPile.empty()){

@@ -7,12 +7,12 @@ import piles.DrawPile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class UnoPlayer {
   private final String name;
   private List<AbstractCard> cardList;
   private int score;
   
-  public Player(String name){
+  public UnoPlayer(String name){
     this.name = name;
     this.cardList = new ArrayList<>();
     this.score = 0;
